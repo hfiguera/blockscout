@@ -1234,7 +1234,7 @@ defmodule Explorer.ChainTest do
 
       %InternalTransaction{id: first_id} =
         insert(:internal_transaction,
-          index: 0,
+          index: 1,
           transaction: transaction,
           to_address: address,
           block_number: transaction.block_number,
@@ -1243,14 +1243,18 @@ defmodule Explorer.ChainTest do
 
       %InternalTransaction{id: second_id} =
         insert(:internal_transaction,
-          index: 1,
+          index: 2,
           transaction: transaction,
           to_address: address,
           block_number: transaction.block_number,
           transaction_index: transaction.index
         )
 
-      result = address |> Chain.address_to_internal_transactions() |> Enum.map(& &1.id)
+      result =
+        address
+        |> Chain.address_to_internal_transactions()
+        |> Enum.map(& &1.id)
+
       assert Enum.member?(result, first_id)
       assert Enum.member?(result, second_id)
     end
@@ -1401,15 +1405,9 @@ defmodule Explorer.ChainTest do
           :internal_transaction,
           transaction: first_b_transaction,
           to_address: address,
-<<<<<<< HEAD
-          index: 1,
-          transaction_index: first_b_transaction.index,
-          block_number: first_b_transaction.block_number
-=======
           index: 2,
           block_number: first_b_transaction.block_number,
           transaction_index: first_b_transaction.index
->>>>>>> c06b04ad... fixup! Add 'block_number' and 'transaction_index' in 'internal_transaction'
         )
 
       result =
@@ -1429,24 +1427,14 @@ defmodule Explorer.ChainTest do
         :internal_transaction,
         transaction: pending_transaction,
         to_address: address,
-<<<<<<< HEAD
-        index: 0,
-        transaction_index: pending_transaction.index
-=======
-        index: 1,
->>>>>>> c06b04ad... fixup! Add 'block_number' and 'transaction_index' in 'internal_transaction'
+        index: 1
       )
 
       insert(
         :internal_transaction,
         transaction: pending_transaction,
         to_address: address,
-<<<<<<< HEAD
-        index: 1,
-        transaction_index: pending_transaction.index
-=======
-        index: 2,
->>>>>>> c06b04ad... fixup! Add 'block_number' and 'transaction_index' in 'internal_transaction'
+        index: 2
       )
 
       a_block = insert(:block, number: 2000)
@@ -1461,15 +1449,9 @@ defmodule Explorer.ChainTest do
           :internal_transaction,
           transaction: first_a_transaction,
           to_address: address,
-<<<<<<< HEAD
-          index: 0,
-          transaction_index: first_a_transaction.index,
-          block_number: first_a_transaction.block_number
-=======
           index: 1,
           block_number: first_a_transaction.block_number,
           transaction_index: first_a_transaction.index
->>>>>>> c06b04ad... fixup! Add 'block_number' and 'transaction_index' in 'internal_transaction'
         )
 
       %InternalTransaction{id: second} =
@@ -1477,15 +1459,9 @@ defmodule Explorer.ChainTest do
           :internal_transaction,
           transaction: first_a_transaction,
           to_address: address,
-<<<<<<< HEAD
-          index: 1,
-          transaction_index: first_a_transaction.index,
-          block_number: first_a_transaction.block_number
-=======
           index: 2,
           block_number: first_a_transaction.block_number,
           transaction_index: first_a_transaction.index
->>>>>>> c06b04ad... fixup! Add 'block_number' and 'transaction_index' in 'internal_transaction'
         )
 
       second_a_transaction =
@@ -1498,15 +1474,9 @@ defmodule Explorer.ChainTest do
           :internal_transaction,
           transaction: second_a_transaction,
           to_address: address,
-<<<<<<< HEAD
-          index: 0,
-          transaction_index: second_a_transaction.index,
-          block_number: second_a_transaction.block_number
-=======
           index: 1,
           block_number: second_a_transaction.block_number,
           transaction_index: second_a_transaction.index
->>>>>>> c06b04ad... fixup! Add 'block_number' and 'transaction_index' in 'internal_transaction'
         )
 
       %InternalTransaction{id: fourth} =
@@ -1514,15 +1484,9 @@ defmodule Explorer.ChainTest do
           :internal_transaction,
           transaction: second_a_transaction,
           to_address: address,
-<<<<<<< HEAD
-          index: 1,
-          transaction_index: second_a_transaction.index,
-          block_number: second_a_transaction.block_number
-=======
           index: 2,
           block_number: second_a_transaction.block_number,
           transaction_index: second_a_transaction.index
->>>>>>> c06b04ad... fixup! Add 'block_number' and 'transaction_index' in 'internal_transaction'
         )
 
       b_block = insert(:block, number: 6000)
@@ -1562,7 +1526,7 @@ defmodule Explorer.ChainTest do
                |> Enum.map(& &1.id)
 
       # block number ==, transaction index ==, internal transaction index <
-      assert [fifth, fourth, third, second, first] ==
+      assert [fourth, third, second, first] ==
                address
                |> Chain.address_to_internal_transactions(
                  paging_options: %PagingOptions{key: {6000, 0, 1}, page_size: 8}
